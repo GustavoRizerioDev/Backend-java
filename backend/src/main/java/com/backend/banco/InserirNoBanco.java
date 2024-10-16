@@ -1,8 +1,8 @@
-package com.backend.banco;
+package main.java.com.backend.banco;
 
-import com.backend.Main;
-import com.backend.leituraExcel.Energia;
-import com.backend.leituraExcel.LeitorExcel;
+import main.java.com.backend.Main;
+import main.java.com.backend.leituraExcel.Energia;
+import main.java.com.backend.leituraExcel.LeitorExcel;
 import org.springframework.jdbc.core.JdbcTemplate;
 
 import java.io.IOException;

@@ -1,9 +1,9 @@
-package com.backend;
+package main.java.com.backend;
 
-import com.backend.banco.Conexao;
-import com.backend.banco.CriacaoDeTabelas;
-import com.backend.banco.InserirNoBanco;
-import com.backend.bucket.BucketServices;
+import main.java.com.backend.banco.Conexao;
+import main.java.com.backend.banco.CriacaoDeTabelas;
+import main.java.com.backend.banco.InserirNoBanco;
+import main.java.com.backend.bucket.BucketServices;
 import java.io.IOException;
 
 
@@ -16,7 +16,7 @@ public class Main {
         InserirNoBanco inserir = new InserirNoBanco();
 
         bucketServices.criarBucket();
-        bucketServices.listarBucker();
+        bucketServices.listarBucket();
         bucketServices.baixarArquivoLocal();
 
         criar.criarTabelas();

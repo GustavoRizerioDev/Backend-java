@@ -1,4 +1,4 @@
-package com.backend.bucket;
+package main.java.com.backend.bucket;
 
 import software.amazon.awssdk.auth.credentials.AwsSessionCredentials;
 import software.amazon.awssdk.regions.Region;

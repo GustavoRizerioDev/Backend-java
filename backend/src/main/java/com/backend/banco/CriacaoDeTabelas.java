@@ -1,4 +1,4 @@
-package com.backend.banco;
+package main.java.com.backend.banco;
 
 import org.springframework.jdbc.core.JdbcTemplate;
 
