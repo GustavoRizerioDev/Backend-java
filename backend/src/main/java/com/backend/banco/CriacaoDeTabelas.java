@@ -4,7 +4,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 
 public class CriacaoDeTabelas {
         Conexao conexao = new Conexao();
-        JdbcTemplate con = conexao.getConexaoDoBanco();
+        JdbcTemplate con = conexao.getConnection();
 
         public void criarTabelas(){
             con.execute("""

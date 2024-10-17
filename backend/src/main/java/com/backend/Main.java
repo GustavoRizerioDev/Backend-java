@@ -15,11 +15,12 @@ public class Main {
         CriacaoDeTabelas criar = new CriacaoDeTabelas();
         InserirNoBanco inserir = new InserirNoBanco();
 
+        criar.criarTabelas();
+
         bucketServices.criarBucket();
         bucketServices.listarBucket();
         bucketServices.baixarArquivoLocal();
 
-        criar.criarTabelas();
         inserir.inserirDados();
     }
 }

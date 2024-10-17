@@ -26,7 +26,7 @@ public class BucketServices {
     private static final Logger logger = LoggerFactory.getLogger(BucketServices.class);
     S3Client s3Client = new com.backend.bucket.S3Provider().getS3Client();
     String bucketName = "vertex-bucket-xls"; //cada nome tem que ser único
-    JdbcTemplate con = new Conexao().getConexaoDoBanco();
+    JdbcTemplate con = new Conexao().getConnection();
 
     private void registrarLog(String tipo, String descricao){
         String logSql = "INSERT INTO Logs (data, classe, tipo, descricao) VALUES (?, ?, ?, ?)";

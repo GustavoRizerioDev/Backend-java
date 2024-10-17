@@ -19,10 +19,10 @@ import java.util.logging.Logger;
 public class InserirNoBanco {
     private static final Logger logger = Logger.getLogger(Main.class.getName());
     Conexao conexao = new Conexao();
-    JdbcTemplate con = conexao.getConexaoDoBanco();
+    JdbcTemplate con = conexao.getConnection();
 
     public void inserirDados() throws IOException{
-        String nomeArquivo = "C:\\Users\\cance\\Desktop\\Backend-java\\backend\\qlikview-consumo-de-energia-2024.xlsx";
+        String nomeArquivo = "C:\\Users\\Gusta\\OneDrive\\Área de Trabalho\\2° parte do curso\\Backend-java\\backend\\qlikview-consumo-de-energia-2024.xlsx";
         Path caminho = Path.of(nomeArquivo);
         InputStream arquivo = Files.newInputStream(caminho);
 
