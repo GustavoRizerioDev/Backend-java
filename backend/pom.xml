@@ -110,7 +110,7 @@
                     </descriptorRefs>
                     <archive>
                         <manifest>
-                            <mainClass>school.sptech.Main</mainClass>
+                            <mainClass>com.backend.Main</mainClass>
                         </manifest>
                     </archive>
                 </configuration>
