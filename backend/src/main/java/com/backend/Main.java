@@ -9,18 +9,17 @@ import java.io.IOException;
 
 public class Main {
     public static void main(String[] args) throws IOException {
-
+        System.out.println("Diretório de trabalho atual: " + System.getProperty("user.dir"));
         BucketServices bucketServices = new BucketServices();
         Conexao con = new Conexao();
         CriacaoDeTabelas criar = new CriacaoDeTabelas();
         InserirNoBanco inserir = new InserirNoBanco();
 
         bucketServices.criarBucket();
-        bucketServices.listarBucker();
+        bucketServices.listarBucket();
         bucketServices.baixarArquivoLocal();
 
         criar.criarTabelas();
         inserir.inserirDados();
-
     }
 }

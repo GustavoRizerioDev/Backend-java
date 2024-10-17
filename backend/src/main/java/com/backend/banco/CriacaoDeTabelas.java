@@ -53,15 +53,6 @@ public class CriacaoDeTabelas {
                   );""");
 
             con.execute("""
-                CREATE TABLE IF NOT EXISTS Logs(
-                   idLog INT NOT NULL auto_increment,
-                   descricao VARCHAR(1000) NOT NULL,
-                   data DATETIME,
-                   PRIMARY KEY(idLog)
-            );
-            """);
-
-            con.execute("""
                 CREATE TABLE IF NOT EXISTS Energia (
                   idEnergia INT NOT NULL auto_increment,
                   Kwh INT NOT NULL,
@@ -72,6 +63,16 @@ public class CriacaoDeTabelas {
                   PRIMARY KEY (idEnergia)
             );
             """);
+
+            con.execute("""
+                    CREATE TABLE IF NOT EXISTS Logs (
+                        idLog INT AUTO_INCREMENT PRIMARY KEY,
+                        Data TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                        Classe VARCHAR(255),
+                        Tipo VARCHAR(50),
+                        Descricao TEXT
+                    );
+                    """);
         }
 
 }

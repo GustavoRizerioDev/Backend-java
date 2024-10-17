@@ -22,7 +22,7 @@ public class InserirNoBanco {
     JdbcTemplate con = conexao.getConexaoDoBanco();
 
     public void inserirDados() throws IOException{
-        String nomeArquivo = "qlikview-consumo-de-energia-2024.xlsx";
+        String nomeArquivo = "C:\\Users\\cance\\Desktop\\Backend-java\\backend\\qlikview-consumo-de-energia-2024.xlsx";
         Path caminho = Path.of(nomeArquivo);
         InputStream arquivo = Files.newInputStream(caminho);
 
@@ -45,9 +45,10 @@ public class InserirNoBanco {
                     String successMessageColored = String.format("\u001B[32m[%s] Inserção bem-sucedida para: %s\u001B[0m", dataHora, energia);
 
                     System.out.println(successMessageColored);
+                    // Inserir log no banco de dados
+                    String logSql = "INSERT INTO Logs (data, classe, tipo, descricao) VALUES (?, ?, ?, ?)";
+                    con.update(logSql, LocalDateTime.now(), "InserirNoBanco", "INFO", successMessage);
 
-                    String logSql = "INSERT INTO Logs (descricao, data) VALUES (?, ?)";
-                    con.update(logSql, successMessage, LocalDateTime.now());
 
                 } catch (Exception e) {
                     String dataHora = LocalDateTime.now().format(formatter);
@@ -55,15 +56,19 @@ public class InserirNoBanco {
 
                     logger.log(Level.SEVERE, errorMessage, e);
 
-                    String logSql = "INSERT INTO Logs (descricao, data) VALUES (?, ?)";
-                    con.update(logSql, errorMessage, LocalDateTime.now());
+                    String logSql = "INSERT INTO Logs (data, classe, tipo, descricao) VALUES (?, ?, ?, ?)";
+                    con.update(logSql, LocalDateTime.now(), "InserirNoBanco", "ERROR", errorMessage);
+
                 }
             } else {
                 String dataHora = LocalDateTime.now().format(formatter);
-                String infoMessage = String.format("Registro já existente para: %s", energia);
-                String infoMessageColored = String.format("\u001B[33m[%s] Registro já existente para: %s\u001B[0m", dataHora, energia);
+                String warnMessage = String.format("Registro já existente para: %s", energia);
+                String warnMessageColored = String.format("\u001B[33m[%s] Registro já existente para: %s\u001B[0m", dataHora, energia);
 
-                System.out.println(infoMessageColored);
+                System.out.println(warnMessageColored);
+
+                String logSql = "INSERT INTO Logs (data, classe, tipo, descricao) VALUES (?, ?, ?, ?)";
+                con.update(logSql, LocalDateTime.now(), "InserirNoBanco", "WARNING", warnMessage);
             }
         }
     }
