@@ -1,15 +1,15 @@
-package main.java.com.backend;
+package com.backend;
 
-import main.java.com.backend.banco.Conexao;
-import main.java.com.backend.banco.CriacaoDeTabelas;
-import main.java.com.backend.banco.InserirNoBanco;
-import main.java.com.backend.bucket.BucketServices;
+import com.backend.banco.Conexao;
+import com.backend.banco.CriacaoDeTabelas;
+import com.backend.banco.InserirNoBanco;
+import com.backend.bucket.BucketServices;
 import java.io.IOException;
 
 
 public class Main {
     public static void main(String[] args) throws IOException {
-
+        System.out.println("Diretório de trabalho atual: " + System.getProperty("user.dir"));
         BucketServices bucketServices = new BucketServices();
         Conexao con = new Conexao();
         CriacaoDeTabelas criar = new CriacaoDeTabelas();
@@ -21,6 +21,5 @@ public class Main {
 
         criar.criarTabelas();
         inserir.inserirDados();
-
     }
 }

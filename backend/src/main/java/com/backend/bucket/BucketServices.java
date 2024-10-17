@@ -1,5 +1,5 @@
 
-package main.java.com.backend.bucket;
+package com.backend.bucket;
 
 import org.slf4j.LoggerFactory;
 import software.amazon.awssdk.core.sync.RequestBody;
@@ -11,6 +11,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
@@ -18,11 +19,19 @@ import java.util.UUID;
 import org.slf4j.Logger;
 import software.amazon.awssdk.services.s3.model.PutObjectRequest;
 
+import org.springframework.jdbc.core.JdbcTemplate;
+import com.backend.banco.Conexao;
+
 public class BucketServices {
     private static final Logger logger = LoggerFactory.getLogger(BucketServices.class);
-    S3Client s3Client = new main.java.com.backend.bucket.S3Provider().getS3Client();
+    S3Client s3Client = new com.backend.bucket.S3Provider().getS3Client();
     String bucketName = "vertex-bucket-xls"; //cada nome tem que ser único
-    String logName = "backup.log";
+    JdbcTemplate con = new Conexao().getConexaoDoBanco();
+
+    private void registrarLog(String tipo, String descricao){
+        String logSql = "INSERT INTO Logs (data, classe, tipo, descricao) VALUES (?, ?, ?, ?)";
+        con.update(logSql, LocalDateTime.now(), "BucketServices", tipo, descricao);
+    }
 
     public void criarBucket(){
         try {
@@ -30,9 +39,13 @@ public class BucketServices {
                     .bucket(bucketName)
                     .build();
             s3Client.createBucket(createBucketRequest);
-            logger.info("Bucket criado com sucesso: " + bucketName);
+            String creatMessage = "Bucket criado com sucesso: " + bucketName;
+            logger.info(creatMessage);
+            registrarLog("INFO", creatMessage);
         } catch (S3Exception e) {
-            logger.error("Erro ao criar o bucket: " + e.getMessage());
+            String errorMessage = "Erro ao criar o bucket: " + e.getMessage();
+            logger.error(errorMessage);
+            registrarLog("ERROR", errorMessage);
         }
 
         try {
@@ -53,16 +66,20 @@ public class BucketServices {
                     .build();
 
             List<S3Object> objects = s3Client.listObjects(listObjects).contents();
-            logger.info("Objetos no bucket " + bucketName + ":");
+            String listMessage = "Objetos no bucket " + bucketName + ":";
+            logger.info(listMessage);
+            registrarLog("INFO", listMessage);
             for (S3Object object : objects) {
                 logger.info("- " + object.key());
             }
         } catch (S3Exception e) {
-            logger.error("Erro ao listar objetos no bucket: " + e.getMessage());
+            String errorMessage = "Erro ao listar objetos no bucket: " + e.getMessage();
+            logger.error(errorMessage);
+            registrarLog("ERROR", errorMessage);
         }
     }
 
-    public void enviarAquivo(){
+    public void enviarArquivo(){
         try {
             String uniqueFileName = UUID.randomUUID().toString();
             PutObjectRequest putObjectRequest = PutObjectRequest.builder()
@@ -72,10 +89,13 @@ public class BucketServices {
 
             File file = new File("arquivoS3.txt");
             s3Client.putObject(putObjectRequest, RequestBody.fromFile(file));
-
-            logger.info("Arquivo '" + file.getName() + "' enviado com sucesso com o nome: " + uniqueFileName);
+            String envioMessage = "Arquivo '" + file.getName() + "' enviado com sucesso com o nome: " + uniqueFileName;
+            logger.info(envioMessage);
+            registrarLog("INFO", envioMessage);
         } catch (S3Exception e) {
-            logger.error("Erro ao fazer upload do arquivo: " + e.getMessage());
+            String errorMessage = "Erro ao fazer upload do arquivo: " + e.getMessage();
+            logger.error(errorMessage);
+            registrarLog("ERROR", errorMessage);
         }
     }
 
@@ -94,15 +114,19 @@ public class BucketServices {
 
                     InputStream inputStream = s3Client.getObject(getObjectRequest, ResponseTransformer.toInputStream());
                     Files.copy(inputStream, new File(key).toPath());
-                    logger.info("Arquivo baixado: " + key);
+                    String uploadMessage = "Arquivo baixado: " + key;
+                    logger.info(uploadMessage);
+                    registrarLog("INFO", uploadMessage);
                 }
             }
         } catch (IOException | S3Exception e) {
-            logger.error("Erro ao fazer download dos arquivos: " + e.getMessage());
+            String errorMessage = "Erro ao fazer download dos arquivos: " + e.getMessage();
+            logger.error(errorMessage);
+            registrarLog("ERROR", errorMessage);
         }
     }
 
-    public void deletarAquivo(){
+    public void deletarArquivo(){
         try {
             String objectKeyToDelete = "identificador-do-arquivo";
             DeleteObjectRequest deleteObjectRequest = DeleteObjectRequest.builder()
@@ -110,42 +134,26 @@ public class BucketServices {
                     .key(objectKeyToDelete)
                     .build();
             s3Client.deleteObject(deleteObjectRequest);
-
-            logger.info("Objeto deletado com sucesso: " + objectKeyToDelete);
+            String dellMessage = "Objeto deletado com sucesso: " + objectKeyToDelete;
+            logger.info(dellMessage);
+            registrarLog("INFO", dellMessage);
         } catch (S3Exception e) {
-            logger.error("Erro ao deletar objeto: " + e.getMessage());
+            String errorMessage = "Erro ao deletar objeto: " + e.getMessage();
+            logger.error(errorMessage);
+            registrarLog("ERROR", errorMessage);
         }
     }
 
-    public void  enviarLogParaS3(){
-        try{
-            File logFile = new File("backup.log");
-
-            if(!logFile.exists()){
-                logger.error("Arquivo de log não encontrado: backup.log");
-                return;
-            }
-            PutObjectRequest putObjectRequest = PutObjectRequest.builder()
-                    .bucket(bucketName)
-                    .key("logs/backup.log")
-                    .build();
-
-            s3Client.putObject(putObjectRequest, RequestBody.fromFile(logFile));
-            logger.info("Arquivo de log enviado com sucesso para S3: logs/{}", logName);
-        }catch (Exception e){
-            logger.error("Erro ao enviar o arquivo de log para o S3: {}", e.getMessage());
-        }
-    }
 
     public static void main(String[] args){
         BucketServices bucketServices = new BucketServices();
+        logger.info("Iniciando operações no S3.");
         bucketServices.criarBucket();
         bucketServices.listarBucket();
-        bucketServices.enviarAquivo();
+        bucketServices.enviarArquivo();
         bucketServices.baixarArquivoLocal();
-        bucketServices.deletarAquivo();
+        bucketServices.deletarArquivo();
 
-        bucketServices.enviarLogParaS3();
     }
 }
 

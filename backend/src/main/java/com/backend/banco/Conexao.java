@@ -1,4 +1,4 @@
-package main.java.com.backend.banco;
+package com.backend.banco;
 
 import org.apache.commons.dbcp2.BasicDataSource;
 import org.springframework.jdbc.core.JdbcTemplate;
