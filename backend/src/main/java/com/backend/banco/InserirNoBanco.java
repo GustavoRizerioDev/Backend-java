@@ -22,7 +22,7 @@ public class InserirNoBanco {
     JdbcTemplate con = conexao.getConnection();
 
     public void inserirDados() throws IOException{
-        String nomeArquivo = "C:\\Users\\Gusta\\OneDrive\\Área de Trabalho\\2° parte do curso\\Backend-java\\backend\\qlikview-consumo-de-energia-2024.xlsx";
+        String nomeArquivo = "qlikview-consumo-de-energia-2024.xlsx";
         Path caminho = Path.of(nomeArquivo);
         InputStream arquivo = Files.newInputStream(caminho);
 

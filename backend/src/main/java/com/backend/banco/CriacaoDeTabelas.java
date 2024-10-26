@@ -11,6 +11,7 @@ public class CriacaoDeTabelas {
                 CREATE TABLE IF NOT EXISTS Cargos (
                   idCargos INT NOT NULL auto_increment,
                   Nome VARCHAR(50) NOT NULL,
+                  PermissaoAdm VARCHAR(3),
                   PRIMARY KEY (idCargos)
                 );""");
 
@@ -20,7 +21,6 @@ public class CriacaoDeTabelas {
                     Nome VARCHAR(100) NOT NULL,
                     Senha VARCHAR(255) NOT NULL,
                     Email VARCHAR(100) NOT NULL,
-                    Sexo ENUM('Masculino', 'Feminino', 'Outro') NOT NULL,
                     fk_cargos INT NOT NULL,
                     PRIMARY KEY (idUsuario),
                     CONSTRAINT fk_Usuario_Cargos
@@ -58,7 +58,7 @@ public class CriacaoDeTabelas {
                   Kwh INT NOT NULL,
                   Gasto INT NOT NULL,
                   Mes VARCHAR(20) NOT NULL,
-                  local VARCHAR(255) NOT NULL,
+                  Local VARCHAR(255) NOT NULL,
                   Ano INT NOT NULL,
                   PRIMARY KEY (idEnergia)
             );
@@ -66,11 +66,12 @@ public class CriacaoDeTabelas {
 
             con.execute("""
                     CREATE TABLE IF NOT EXISTS Logs (
-                        idLog INT AUTO_INCREMENT PRIMARY KEY,
+                        idLog INT NOT NULL AUTO_INCREMENT,
                         Data TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-                        Classe VARCHAR(255),
-                        Tipo VARCHAR(50),
-                        Descricao TEXT
+                        Classe VARCHAR(255) NOT NULL,
+                        Tipo VARCHAR(50)NOT NULL,
+                        Descricao TEXT NOT NULL,
+                        PRIMARY KEY (idLog)
                     );
                     """);
         }
