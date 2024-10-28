@@ -4,28 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="6405bc0e-5c83-4d9b-82bb-63f6112cce16" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/backend/banco/tabelas/Cargos.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/backend/banco/tabelas/Contato.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/backend/banco/tabelas/Energia.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/backend/banco/tabelas/IA.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/backend/banco/tabelas/Local.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/backend/banco/tabelas/Notificacao.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/backend/banco/tabelas/Usuario.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/main/java/com/backend/Main.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/main/java/com/backend/banco/Conexao.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/main/java/com/backend/banco/CriacaoDeTabelas.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/main/java/com/backend/banco/InserirNoBanco.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/main/java/com/backend/bucket/BucketServices.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/main/java/com/backend/bucket/S3Provider.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/main/java/com/backend/leituraExcel/Energia.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/main/java/com/backend/leituraExcel/LeitorExcel.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/main/java/com/backend/resources/logback.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/maven-archiver/pom.properties" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/testeBanco-1.0-SNAPSHOT-jar-with-dependencies.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/testeBanco-1.0-SNAPSHOT.jar" beforeDir="false" />
+    <list default="true" id="6405bc0e-5c83-4d9b-82bb-63f6112cce16" name="Changes" comment="Alterando variaveis de ambiente">
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/backend/banco/Conexao.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/backend/banco/Conexao.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -41,12 +21,12 @@
     &quot;assignee&quot;: &quot;LucCancela&quot;
   }
 }</component>
-  <component name="GithubPullRequestsUISettings">{
-  &quot;selectedUrlAndAccountId&quot;: {
-    &quot;url&quot;: &quot;https://github.com/Vertex-PI/Backend-java.git&quot;,
-    &quot;accountId&quot;: &quot;a9f7d7e0-9341-449b-8d62-167227c3f847&quot;
+  <component name="GithubPullRequestsUISettings"><![CDATA[{
+  "selectedUrlAndAccountId": {
+    "url": "https://github.com/Vertex-PI/Backend-java.git",
+    "accountId": "a5381350-f00c-4bd6-9183-0e764c0c9821"
   }
-}</component>
+}]]></component>
   <component name="ProjectColorInfo">{
   &quot;customColor&quot;: &quot;&quot;,
   &quot;associatedIndex&quot;: 8
@@ -63,7 +43,7 @@
     "git-widget-placeholder": "main",
     "ignore.virus.scanning.warn.message": "true",
     "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "C:/Users/Gusta/OneDrive/Área de Trabalho/Sptech/Backend-java/backend"
+    "last_opened_file_path": "C:/Users/Gusta/Desktop/Backend-java"
   }
 }]]></component>
   <component name="RecentsManager">
@@ -101,5 +81,9 @@
       <updated>1729039198639</updated>
     </task>
     <servers />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Alterando variaveis de ambiente" />
+    <option name="LAST_COMMIT_MESSAGE" value="Alterando variaveis de ambiente" />
   </component>
 </project>
