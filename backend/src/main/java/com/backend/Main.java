@@ -16,8 +16,7 @@ public class Main {
         InserirNoBanco inserir = new InserirNoBanco();
 
         criar.criarTabelas();
-
-        bucketServices.criarBucket();
+        
         bucketServices.listarBucket();
         bucketServices.baixarArquivoLocal();
 
