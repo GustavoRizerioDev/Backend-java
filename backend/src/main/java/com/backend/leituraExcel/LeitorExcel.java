@@ -4,6 +4,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellType;
@@ -62,6 +65,16 @@ public class LeitorExcel {
                 }
             }
         }
+    }
+
+    private Integer extrairAnoDoNomeArquivo(String nomeArquivo) {
+        // Regex para encontrar um ano de quatro dígitos no nome do arquivo
+        Pattern pattern = Pattern.compile("\\b(\\d{4})\\b");
+        Matcher matcher = pattern.matcher(nomeArquivo);
+        if (matcher.find()) {
+            return Integer.parseInt(matcher.group(1));
+        }
+        return null; // Retorna null se o ano não for encontrado
     }
 
     private void lerGastos(Sheet sheet, List<Energia> energiaExtraida, String[] meses) {

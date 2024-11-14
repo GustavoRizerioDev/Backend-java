@@ -33,32 +33,6 @@ public class BucketServices {
         con.update(logSql, LocalDateTime.now(), "BucketServices", tipo, descricao);
     }
 
-    public void criarBucket(){
-        try {
-            CreateBucketRequest createBucketRequest = CreateBucketRequest.builder()
-                    .bucket(bucketName)
-                    .build();
-            s3Client.createBucket(createBucketRequest);
-            String creatMessage = "Bucket criado com sucesso: " + bucketName;
-            logger.info(creatMessage);
-            registrarLog("INFO", creatMessage);
-        } catch (S3Exception e) {
-            String errorMessage = "Erro ao criar o bucket: " + e.getMessage();
-            logger.error(errorMessage);
-            registrarLog("ERROR", errorMessage);
-        }
-
-        try {
-            List<Bucket> buckets = s3Client.listBuckets().buckets();
-            logger.info("Lista de buckets:");
-            for (Bucket bucket : buckets) {
-                logger.info("- " + bucket.name());
-            }
-        } catch (S3Exception e) {
-            logger.error("Erro ao listar buckets: " + e.getMessage());
-        }
-    }
-
     public void listarBucket(){
         try {
             ListObjectsRequest listObjects = ListObjectsRequest.builder()
@@ -148,7 +122,6 @@ public class BucketServices {
     public static void main(String[] args){
         BucketServices bucketServices = new BucketServices();
         logger.info("Iniciando operações no S3.");
-        bucketServices.criarBucket();
         bucketServices.listarBucket();
         bucketServices.enviarArquivo();
         bucketServices.baixarArquivoLocal();
@@ -156,5 +129,3 @@ public class BucketServices {
 
     }
 }
-
-
