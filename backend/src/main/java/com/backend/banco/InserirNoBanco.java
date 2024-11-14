@@ -31,13 +31,13 @@ public class InserirNoBanco {
         List<Energia> energiaExtraida = leitorExcel.extrairEnergia(nomeArquivo, arquivo);
 
         for (Energia energia : energiaExtraida) {
-            String checkSql = "SELECT COUNT(*) FROM Energia WHERE Mes = ? AND Ano = ? AND local = ?";
+            String checkSql = "SELECT COUNT(*) FROM Energia WHERE mes = ? AND ano = ? AND local = ?";
             Integer count = con.queryForObject(checkSql, Integer.class, energia.getMes(), energia.getAno(), energia.getLocal());
 
             if (count != null && count == 0) {
-                String sql = "INSERT INTO Energia (Kwh, Gasto, Mes, local, ano) VALUES (?, ?, ?, ?, ?)";
+                String sql = "INSERT INTO Energia (gastoEnergetico, gastoEmReais, mes, local, ano, fk_empresa) VALUES (?, ?, ?, ?, ?, ?)";
                 try {
-                    con.update(sql, energia.getKwh(), energia.getGasto(), energia.getMes(), energia.getLocal(), energia.getAno());
+                    con.update(sql, energia.getKwh(), energia.getGasto(), energia.getMes(), energia.getLocal(), energia.getAno(), 1);
 
                     String dataHora = LocalDateTime.now().format(formatter);
 
