@@ -16,8 +16,7 @@ import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 public class LeitorExcel {
-
-    public List<Energia> extrairEnergia(String nomeArquivo, InputStream arquivo) {
+    public List<Energia> extrairEnergia(String nomeArquivo, InputStream arquivo, int ano) {
         List<Energia> energiaExtraida = new ArrayList<>();
 
         try (Workbook workbook = nomeArquivo.endsWith(".xlsx") ? new XSSFWorkbook(arquivo) : new HSSFWorkbook(arquivo)) {
@@ -25,7 +24,7 @@ public class LeitorExcel {
             String[] meses = {"janeiro", "fevereiro", "março", "abril", "maio", "junho",
                     "julho", "agosto", "setembro", "outubro", "novembro", "dezembro"};
 
-            lerKwh(sheet, energiaExtraida, meses);
+            lerKwh(sheet, energiaExtraida, meses, ano);
             lerGastos(sheet, energiaExtraida, meses);
 
         } catch (IOException e) {
@@ -35,7 +34,7 @@ public class LeitorExcel {
         return energiaExtraida;
     }
 
-    private void lerKwh(Sheet sheet, List<Energia> energiaExtraida, String[] meses) {
+    private void lerKwh(Sheet sheet, List<Energia> energiaExtraida, String[] meses, int ano) {
         for (Row row : sheet) {
             if (row.getRowNum() < 6 || row.getRowNum() > 16) continue;
 
@@ -59,22 +58,12 @@ public class LeitorExcel {
                     energia.setMes(meses[i]);
                     energia.setKwh(kwh[i]);
                     energia.setGasto(0.0);
-                    energia.setAno(2024);
+                    energia.setAno(ano);
                     energiaExtraida.add(energia);
                     System.out.println("kWh adicionado: " + energia);
                 }
             }
         }
-    }
-
-    private Integer extrairAnoDoNomeArquivo(String nomeArquivo) {
-        // Regex para encontrar um ano de quatro dígitos no nome do arquivo
-        Pattern pattern = Pattern.compile("\\b(\\d{4})\\b");
-        Matcher matcher = pattern.matcher(nomeArquivo);
-        if (matcher.find()) {
-            return Integer.parseInt(matcher.group(1));
-        }
-        return null; // Retorna null se o ano não for encontrado
     }
 
     private void lerGastos(Sheet sheet, List<Energia> energiaExtraida, String[] meses) {
@@ -110,8 +99,6 @@ public class LeitorExcel {
         }
     }
 
-
-
     private String lerLocal(Row row) {
         Cell localCell = row.getCell(0);
         if (localCell == null || localCell.getCellType() != CellType.STRING) {
@@ -138,5 +125,4 @@ public class LeitorExcel {
         }
         return 0.0;
     }
-
 }
