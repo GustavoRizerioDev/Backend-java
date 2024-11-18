@@ -4,9 +4,12 @@ import com.backend.banco.Conexao;
 import com.backend.banco.CriacaoDeTabelas;
 import com.backend.banco.InserirNoBanco;
 import com.backend.bucket.BucketServices;
+import com.backend.notification.SlackClients;
+import com.backend.notification.SlackMessages;
 import com.backend.slack.SlackService;
 
 import java.io.IOException;
+import java.time.LocalDate;
 
 
 public class Main {
@@ -19,11 +22,23 @@ public class Main {
         CriacaoDeTabelas criar = new CriacaoDeTabelas();
         InserirNoBanco inserir = new InserirNoBanco();
 
-        //bucketServices.baixarArquivoLocal();
+        bucketServices.listarBucket();
         criar.criarTabelas();
         inserir.inserirDados();
 
-        // SlackService slack = new SlackService(webhookUrl);
-        // slack.sendNotification("Olá, lucas cancela! Esta é uma mensagem de teste do meu projeto.");
+        SlackMessages notifier = new SlackMessages(webhookUrl);
+
+        String consumoElevadoMessage = notifier.generateConsumoElevadoMessage();
+        String resumoSemanalMessage = notifier.generateResumoMensalMessage();
+        String topLocaisGastoMessage = notifier.generateTopLocaisGastoMessage();
+        String alertasDeConsumoAcimaDaMetaMessage = notifier.generateAlertasDeConsumoAcimaDaMetaMessage();
+
+        SlackClients messageSender = new SlackClients(webhookUrl);
+
+        messageSender.sendNotification(consumoElevadoMessage);
+        messageSender.sendNotification(topLocaisGastoMessage);
+        messageSender.sendNotification(alertasDeConsumoAcimaDaMetaMessage);
+        messageSender.sendNotification(resumoSemanalMessage);
+
     }
 }
