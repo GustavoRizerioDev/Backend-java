@@ -5,10 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="6405bc0e-5c83-4d9b-82bb-63f6112cce16" name="Changes" comment="Alterando variaveis de ambiente">
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/backend/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/backend/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/backend/banco/Conexao.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/backend/banco/Conexao.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/backend/bucket/BucketServices.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/backend/bucket/BucketServices.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/backend/bucket/S3Provider.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/backend/bucket/S3Provider.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/backend/banco/InserirNoBanco.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/backend/banco/InserirNoBanco.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/backend/leituraExcel/LeitorExcel.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/backend/leituraExcel/LeitorExcel.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -39,16 +37,16 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;Application.Main.executor&quot;: &quot;Run&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
-    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
-    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/Gusta/Desktop/Backend-java&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Application.Main.executor": "Run",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "git-widget-placeholder": "fix/backend-java",
+    "ignore.virus.scanning.warn.message": "true",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "C:/Users/Gusta/OneDrive/Área de Trabalho/Backend-java/backend"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\Users\Gusta\OneDrive\Área de Trabalho\Sptech\Backend-java\backend" />

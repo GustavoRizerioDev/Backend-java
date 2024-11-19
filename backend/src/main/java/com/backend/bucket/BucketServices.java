@@ -2,9 +2,11 @@
 package com.backend.bucket;
 
 import org.slf4j.LoggerFactory;
+import software.amazon.awssdk.core.ResponseInputStream;
 import software.amazon.awssdk.core.sync.RequestBody;
 import software.amazon.awssdk.core.sync.ResponseTransformer;
 import software.amazon.awssdk.services.s3.S3Client;
+import software.amazon.awssdk.services.s3.endpoints.internal.Value;
 import software.amazon.awssdk.services.s3.model.*;
 
 import java.io.File;
@@ -53,79 +55,51 @@ public class BucketServices {
         }
     }
 
-    public void enviarArquivo(){
+    public void enviarArquivo(String message) {
         try {
-            String uniqueFileName = UUID.randomUUID().toString();
+            // Criando o arquivo localmente
+            File file = new File("arquivoS3.txt");
+            String conteudo = message;
+            Files.writeString(file.toPath(), conteudo);
+
+            // Nome único para o arquivo no bucket
+            String uniqueFileName = "logs-" + UUID.randomUUID() + ".txt";
+
+            // Configurando o request para upload
             PutObjectRequest putObjectRequest = PutObjectRequest.builder()
                     .bucket(bucketName)
                     .key(uniqueFileName)
                     .build();
 
-            File file = new File("arquivoS3.txt");
+            // Fazendo o upload do arquivo
             s3Client.putObject(putObjectRequest, RequestBody.fromFile(file));
-            String envioMessage = "Arquivo '" + file.getName() + "' enviado com sucesso com o nome: " + uniqueFileName;
+
+            String envioMessage = "Arquivo '" + file.getName() + "' enviado com sucesso para o bucket com o nome: " + uniqueFileName;
             logger.info(envioMessage);
             registrarLog("INFO", envioMessage);
-        } catch (S3Exception e) {
-            String errorMessage = "Erro ao fazer upload do arquivo: " + e.getMessage();
-            logger.error(errorMessage);
-            registrarLog("ERROR", errorMessage);
-        }
-    }
 
-    public void baixarArquivoLocal() {
-        try {
-            List<S3Object> objects = s3Client.listObjects(ListObjectsRequest.builder().bucket(bucketName).build()).contents();
-            for (S3Object object : objects) {
-                String key = object.key();
-
-                // Verifica se o arquivo tem a extensão desejada
-                if (key.endsWith(".log") || key.endsWith(".xlsx") || key.endsWith(".xls")) {
-                    GetObjectRequest getObjectRequest = GetObjectRequest.builder()
-                            .bucket(bucketName)
-                            .key(key)
-                            .build();
-
-                    InputStream inputStream = s3Client.getObject(getObjectRequest, ResponseTransformer.toInputStream());
-                    Files.copy(inputStream, new File(key).toPath());
-                    String uploadMessage = "Arquivo baixado: " + key;
-                    logger.info(uploadMessage);
-                    registrarLog("INFO", uploadMessage);
-                }
+            // Removendo o arquivo local após o envio, se necessário
+            if (file.delete()) {
+                logger.info("Arquivo local '" + file.getName() + "' deletado após upload.");
             }
         } catch (IOException | S3Exception e) {
-            String errorMessage = "Erro ao fazer download dos arquivos: " + e.getMessage();
+            String errorMessage = "Erro ao criar ou fazer upload do arquivo: " + e.getMessage();
             logger.error(errorMessage);
             registrarLog("ERROR", errorMessage);
         }
     }
 
-    public void deletarArquivo(){
-        try {
-            String objectKeyToDelete = "identificador-do-arquivo";
-            DeleteObjectRequest deleteObjectRequest = DeleteObjectRequest.builder()
-                    .bucket(bucketName)
-                    .key(objectKeyToDelete)
-                    .build();
-            s3Client.deleteObject(deleteObjectRequest);
-            String dellMessage = "Objeto deletado com sucesso: " + objectKeyToDelete;
-            logger.info(dellMessage);
-            registrarLog("INFO", dellMessage);
-        } catch (S3Exception e) {
-            String errorMessage = "Erro ao deletar objeto: " + e.getMessage();
-            logger.error(errorMessage);
-            registrarLog("ERROR", errorMessage);
-        }
+    public InputStream getExcelFileFromS3(String bucketName, String key) {
+        S3Provider s3Provider = new S3Provider();
+        S3Client s3Client = s3Provider.getS3Client();
+
+        GetObjectRequest request = GetObjectRequest.builder()
+                .bucket(bucketName)
+                .key(key) // O caminho do arquivo no bucket
+                .build();
+
+        ResponseInputStream<GetObjectResponse> response = s3Client.getObject(request);
+        return response; // Retorna o InputStream do arquivo
     }
 
-
-    public static void main(String[] args){
-        BucketServices bucketServices = new BucketServices();
-        logger.info("Iniciando operações no S3.");
-        bucketServices.listarBucket();
-        bucketServices.enviarArquivo();
-        bucketServices.baixarArquivoLocal();
-        bucketServices.deletarArquivo();
-
-    }
 }
