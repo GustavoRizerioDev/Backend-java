@@ -1,0 +1,49 @@
+version: '3.8'
+
+services:
+  db:
+    build:
+      context: ./dockerBD
+      dockerfile: Dockerfile
+    container_name: container-bd-vertex
+    environment:
+      MYSQL_ROOT_PASSWORD: urubu100
+      MYSQL_DATABASE: Vertex
+    ports:
+      - "3306:3306"
+    networks:
+      - rede-vertex
+    volumes:
+      - db_data:/var/lib/mysql
+
+  node-app:
+    build:
+      context: ./dockerND
+      dockerfile: Dockerfile-Node
+    container_name: container-node-vertex
+    ports:
+      - "3333:3333"
+    networks:
+      - rede-vertex
+    depends_on:
+      - db
+
+  java-app:
+    build:
+      context: ./dockerJAVA
+      dockerfile: Dockerfile
+    environment:
+      MYSQL_ROOT_PASSWORD: urubu100
+      MYSQL_DATABASE: Vertex
+    container_name: container-java-vertex
+    networks:
+      - rede-vertex
+    depends_on:
+      - db
+      - node-app
+
+networks:
+  rede-vertex:
+
+volumes:
+  db_data:
