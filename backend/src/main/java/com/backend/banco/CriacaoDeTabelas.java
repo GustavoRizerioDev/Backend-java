@@ -88,7 +88,7 @@ public class CriacaoDeTabelas {
                     data TIMESTAMP NOT NULL,
                     classe VARCHAR(255) NOT NULL,
                     tipo VARCHAR(45) NOT NULL,
-                    descricao VARCHAR(255) NOT NULL,
+                    descricao VARCHAR(555) NOT NULL,
                     PRIMARY KEY (idlog)
                );""");
 

@@ -1,5 +1,6 @@
 package com.backend.bucket;
 
+import software.amazon.awssdk.auth.credentials.AwsCredentialsProvider;
 import software.amazon.awssdk.auth.credentials.AwsSessionCredentials;
 import software.amazon.awssdk.auth.credentials.DefaultCredentialsProvider;
 import software.amazon.awssdk.regions.Region;
@@ -15,20 +16,13 @@ public class S3Provider {
                 .build();
     } */
 
-    private final AwsSessionCredentials credentials;
-
-    public S3Provider() {
-        this.credentials = AwsSessionCredentials.create(
-                System.getenv("AWS_ACCESS_KEY_ID"),
-                System.getenv("AWS_SECRET_ACCESS_KEY"),
-                System.getenv("AWS_SESSION_TOKEN")
-        );
-    }
 
     public S3Client getS3Client() {
+        AwsCredentialsProvider credentialsProvider = DefaultCredentialsProvider.create();
+
         return S3Client.builder()
                 .region(Region.US_EAST_1)
-                .credentialsProvider(() -> credentials)
+                .credentialsProvider(credentialsProvider)
                 .build();
     }
 

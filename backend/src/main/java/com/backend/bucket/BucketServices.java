@@ -26,7 +26,7 @@ import com.backend.banco.Conexao;
 
 public class BucketServices {
     private static final Logger logger = LoggerFactory.getLogger(BucketServices.class);
-    S3Client s3Client = new com.backend.bucket.S3Provider().getS3Client();
+    S3Client s3Client = new S3Provider().getS3Client();
     String bucketName = "vertex-bucket-xls"; //cada nome tem que ser único
     JdbcTemplate con = new Conexao().getConnection();
 
@@ -62,23 +62,19 @@ public class BucketServices {
             String conteudo = message;
             Files.writeString(file.toPath(), conteudo);
 
-            // Nome único para o arquivo no bucket
             String uniqueFileName = "logs-" + UUID.randomUUID() + ".txt";
 
-            // Configurando o request para upload
             PutObjectRequest putObjectRequest = PutObjectRequest.builder()
                     .bucket(bucketName)
                     .key(uniqueFileName)
                     .build();
 
-            // Fazendo o upload do arquivo
             s3Client.putObject(putObjectRequest, RequestBody.fromFile(file));
 
             String envioMessage = "Arquivo '" + file.getName() + "' enviado com sucesso para o bucket com o nome: " + uniqueFileName;
             logger.info(envioMessage);
             registrarLog("INFO", envioMessage);
 
-            // Removendo o arquivo local após o envio, se necessário
             if (file.delete()) {
                 logger.info("Arquivo local '" + file.getName() + "' deletado após upload.");
             }
@@ -95,11 +91,11 @@ public class BucketServices {
 
         GetObjectRequest request = GetObjectRequest.builder()
                 .bucket(bucketName)
-                .key(key) // O caminho do arquivo no bucket
+                .key(key)
                 .build();
 
         ResponseInputStream<GetObjectResponse> response = s3Client.getObject(request);
-        return response; // Retorna o InputStream do arquivo
+        return response;
     }
 
 }

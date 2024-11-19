@@ -7,45 +7,25 @@ import javax.sql.DataSource;
 
 public class Conexao {
 
-
-    // Ambiente Em Produção
+    // Ambiente em Produção
     private final DataSource dataSource;
-    public Conexao(){
 
+    public Conexao() {
         BasicDataSource basicDataSource = new BasicDataSource();
+
+        String dbUrl = System.getenv("DB_URL");
+        String dbUser = System.getenv("DB_USER");
+        String dbPassword = System.getenv("DB_PASSWORD");
+
         basicDataSource.setDriverClassName("com.mysql.cj.jdbc.Driver");
-        basicDataSource.setUrl("jdbc:mysql://127.0.0.1:3307/Vertex");
-        basicDataSource.setUsername("root");
-        basicDataSource.setPassword("12345");
+        basicDataSource.setUrl(dbUrl != null ? dbUrl : "jdbc:mysql://127.0.0.1:3307/Vertex");
+        basicDataSource.setUsername(dbUser != null ? dbUser : "root");
+        basicDataSource.setPassword(dbPassword != null ? dbPassword : "12345");
 
         this.dataSource = basicDataSource;
-
     }
-
 
     public JdbcTemplate getConnection() {
         return new JdbcTemplate(dataSource);
     }
-
-    /* Ambiente Local
-
-        private final DataSource dataSource;
-        public Conexao(){
-
-        BasicDataSource basicDataSource = new BasicDataSource();
-        basicDataSource.setDriverClassName("com.mysql.cj.jdbc.Driver");
-        basicDataSource.setUrl(System.getenv("DB_HOST"));
-        basicDataSource.setUsername(System.getenv("DB_USER"));
-        basicDataSource.setPassword(System.getenv("DB_PASSWORD"));
-
-        this.dataSource = basicDataSource;
-
-        }
-
-
-        public JdbcTemplate getConnection() {
-            return new JdbcTemplate(dataSource);
-        }
-    */
-
 }

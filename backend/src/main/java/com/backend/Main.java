@@ -6,7 +6,6 @@ import com.backend.banco.InserirNoBanco;
 import com.backend.bucket.BucketServices;
 import com.backend.notification.SlackClients;
 import com.backend.notification.SlackMessages;
-import com.backend.slack.SlackService;
 
 import java.io.IOException;
 import java.time.LocalDate;

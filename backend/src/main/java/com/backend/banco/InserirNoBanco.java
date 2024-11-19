@@ -2,7 +2,6 @@ package com.backend.banco;
 
 import com.backend.Main;
 import com.backend.bucket.BucketServices;
-import com.backend.bucket.S3Service;
 import com.backend.leituraExcel.Energia;
 import com.backend.leituraExcel.LeitorExcel;
 import com.backend.notification.SlackLogs;
@@ -70,7 +69,6 @@ public class InserirNoBanco {
         }
 
         slackLogs.sendNotification(logBuilder.toString());
-
         s3Service.enviarArquivo(logBuilder.toString());
     }
 }
