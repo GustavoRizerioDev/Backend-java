@@ -6,12 +6,9 @@ import com.backend.leituraExcel.Energia;
 import com.backend.leituraExcel.LeitorExcel;
 import com.backend.notification.SlackLogs;
 import org.springframework.jdbc.core.JdbcTemplate;
-import software.amazon.awssdk.services.s3.endpoints.internal.Value;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
