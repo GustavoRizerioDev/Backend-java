@@ -1,14 +1,9 @@
 package com.backend.notification;
 
-import com.backend.banco.Conexao;
-import org.springframework.jdbc.core.JdbcTemplate;
-
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
-import java.util.List;
-import java.util.Map;
 
 public class SlackClients extends Slack {
 
@@ -16,7 +11,7 @@ public class SlackClients extends Slack {
     public SlackClients(String mensagem) {
 
         super(mensagem);
-        this.webhookUrl = "https://hooks.slack.com/services/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";
+        this.webhookUrl = "https://hooks.slack.com/services/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";
     }
 
     public void sendNotification(String mensagem) {

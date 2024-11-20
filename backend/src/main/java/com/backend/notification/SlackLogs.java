@@ -11,7 +11,7 @@ public class SlackLogs extends Slack {
 
     public SlackLogs(String mensagem) {
         super(mensagem);
-        this.webhookUrl = "https://hooks.slack.com/services/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";
+        this.webhookUrl = "https://hooks.slack.com/services/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";
     }
 
     public void sendNotification(String mensagem) {

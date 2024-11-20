@@ -14,7 +14,7 @@ import java.time.LocalDate;
 public class Main {
     public static void main(String[] args) throws IOException {
         System.out.println("Diretório de trabalho atual: " + System.getProperty("user.dir"));
-        String webhookUrl = "https://hooks.slack.com/services/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";
+        String webhookUrl = "https://hooks.slack.com/services/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";
 
         BucketServices bucketServices = new BucketServices();
         Conexao con = new Conexao();
