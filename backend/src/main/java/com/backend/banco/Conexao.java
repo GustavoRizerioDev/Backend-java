@@ -12,9 +12,9 @@ public class Conexao {
 
         BasicDataSource basicDataSource = new BasicDataSource();
         basicDataSource.setDriverClassName("com.mysql.cj.jdbc.Driver");
-        basicDataSource.setUrl("jdbc:mysql://container-bd-vertex:3306/Vertex");
+        basicDataSource.setUrl("jdbc:mysql://localhost:3306/Vertex");
         basicDataSource.setUsername("root");
-        basicDataSource.setPassword("urubu100");
+        basicDataSource.setPassword("12345");
 
         this.dataSource = basicDataSource;
 
