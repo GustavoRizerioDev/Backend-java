@@ -2,26 +2,31 @@ package com.backend.notification;
 
 import java.io.*;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.util.stream.Collectors;
 
 public class SlackLogs extends Slack {
 
-    public SlackLogs(String mensagem) {
+    private final String slackToken;
+    private final String channelId;
+
+    public SlackLogs(String mensagem, String slackToken, String channelId) {
         super(mensagem);
-        this.webhookUrl = "https://hooks.slack.com/services/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";
+        this.slackToken = slackToken;
+        this.channelId = channelId;
     }
 
+    @Override
     public void sendNotification(String mensagem) {
-            HttpURLConnection connection = null;
+        HttpURLConnection connection = null;
 
         try {
-            URL url = new URL(webhookUrl);
+            URL url = new URL("https://slack.com/api/chat.postMessage"); // Endpoint oficial da Slack API
             connection = (HttpURLConnection) url.openConnection();
             connection.setRequestMethod("POST");
             connection.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
+            connection.setRequestProperty("Authorization", "Bearer " + slackToken); // Autorização com token
             connection.setDoOutput(true);
 
             String payload = buildPayload(mensagem);
@@ -33,13 +38,11 @@ public class SlackLogs extends Slack {
             }
 
             // Processamento da resposta
-            Integer responseCode = connection.getResponseCode();
+            int responseCode = connection.getResponseCode();
             handleResponse(responseCode, connection);
 
-        } catch (MalformedURLException e) {
-            System.err.println("URL inválida para o webhook: " + webhookUrl);
         } catch (IOException e) {
-            System.err.println("Erro na conexão ou ao enviar dados para o Slack: " + e.getMessage());
+            System.err.println("Erro ao enviar mensagem ao Slack: " + e.getMessage());
             e.printStackTrace();
         } finally {
             if (connection != null) {
@@ -49,8 +52,8 @@ public class SlackLogs extends Slack {
     }
 
     private String buildPayload(String message) {
-        // Constrói o payload no formato JSON
-        return "{\"text\": \"" + escapeJson(message) + "\"}";
+        // Constrói o payload no formato JSON para o Slack
+        return String.format("{\"channel\": \"%s\", \"text\": \"%s\"}", channelId, escapeJson(message));
     }
 
     private void handleResponse(int responseCode, HttpURLConnection connection) throws IOException {
@@ -72,7 +75,12 @@ public class SlackLogs extends Slack {
     }
 
     private String escapeJson(String message) {
+        // Escapa caracteres especiais para JSON
         return message.replace("\"", "\\\"");
     }
 
+    public String formatLogMessage(String log) {
+        // Método para retornar a mensagem formatada
+        return String.format("📄 *Log*: %s", escapeJson(log));
+    }
 }
