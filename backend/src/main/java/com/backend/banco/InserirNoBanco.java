@@ -18,11 +18,15 @@ import java.util.logging.Logger;
 
 public class InserirNoBanco {
     private static final Logger logger = Logger.getLogger(Main.class.getName());
+    String slackToken = System.getenv("SLACK_TOKEN_LOGS");
+    String channelId = "C081WH4PPGQ";
+    SlackLogs slackLogs = new SlackLogs("Enviando Mensagem:", slackToken, channelId);
+
     Conexao conexao = new Conexao();
     BucketServices s3Service = new BucketServices();
     JdbcTemplate con = conexao.getConnection();
-    SlackLogs slackLogs = new SlackLogs("Enviando Mensagem:");
-    StringBuilder logBuilder = new StringBuilder(); // Para consolidar os logs gerados
+
+    StringBuilder logBuilder = new StringBuilder();
 
     public void inserirDados() throws IOException {
         InputStream excelArchive = s3Service.getExcelFileFromS3("vertex-bucket-xls", "qlikview-consumo-de-energia-2024.xlsx");
