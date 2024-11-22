@@ -3,7 +3,7 @@ name: Build and Push Docker Image
 on:
   push:
     branches:
-      - main 
+      - main
 
 jobs:
   build-and-push:
@@ -21,9 +21,8 @@ jobs:
 
       - name: Build Docker image
         run: |
-          docker build -t gusttarizerio/vertex:imagem-java-vertex -t gusttarizerio/vertex:latest .
-
-
-      - name: Build Docker image
-        run: |
           docker build --no-cache -t gusttarizerio/vertex:imagem-java-vertex -t gusttarizerio/vertex:latest .
+
+      - name: Push Docker image
+        run: |
+          docker push gusttarizerio/vertex:imagem-java-vertex
