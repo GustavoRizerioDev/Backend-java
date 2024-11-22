@@ -19,7 +19,7 @@ import java.util.logging.Logger;
 public class InserirNoBanco {
     private static final Logger logger = Logger.getLogger(Main.class.getName());
     String slackToken = System.getenv("SLACK_TOKEN_LOGS");
-    String channelId = "C081WH4PPGQ";
+    String channelId = "#logs";
     SlackLogs slackLogs = new SlackLogs("Enviando Mensagem:", slackToken, channelId);
 
     Conexao conexao = new Conexao();

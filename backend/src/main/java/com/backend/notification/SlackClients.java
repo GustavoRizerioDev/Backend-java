@@ -7,7 +7,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 
-public class SlackClients extends Slack{
+public class SlackClients extends Slack {
 
     private final String slackToken;
     private final String channelId;
@@ -19,46 +19,71 @@ public class SlackClients extends Slack{
     }
 
     public void sendNotification(String mensagem) {
+        HttpURLConnection connection = null;
+
         try {
+            // Configura a conexão HTTP
             URL url = new URL("https://slack.com/api/chat.postMessage");
-            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+            connection = (HttpURLConnection) url.openConnection();
             connection.setRequestMethod("POST");
             connection.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
             connection.setRequestProperty("Authorization", "Bearer " + slackToken);
             connection.setDoOutput(true);
 
-            // Payload com a mensagem e o canal
+            // Log do token e do canal para depuração
+            System.out.println("Usando Token: " + slackToken);
+            System.out.println("Enviando para o canal: " + channelId);
+
+            // Monta o payload da requisição
             String payload = String.format(
                     "{\"channel\": \"%s\", \"text\": \"%s\"}",
                     channelId,
                     mensagem
             );
 
+            // Envia os dados
             try (OutputStream os = connection.getOutputStream()) {
                 byte[] input = payload.getBytes(StandardCharsets.UTF_8);
                 os.write(input, 0, input.length);
             }
 
+            // Verifica a resposta do servidor
             int responseCode = connection.getResponseCode();
-            if (responseCode == 200) {
-                System.out.println("Mensagem enviada com sucesso ao Slack.");
-            } else {
-                System.out.printf("Erro ao enviar mensagem ao Slack. Código de resposta: %d%n", responseCode);
+            System.out.printf("Código de resposta do Slack: %d%n", responseCode);
 
-                // Lê a resposta detalhada do Slack em caso de erro
+            if (responseCode == 200) {
+                // Mensagem enviada com sucesso
                 try (BufferedReader br = new BufferedReader(
-                        new InputStreamReader(connection.getErrorStream(), StandardCharsets.UTF_8))) {
+                        new InputStreamReader(connection.getInputStream(), StandardCharsets.UTF_8))) {
                     StringBuilder response = new StringBuilder();
                     String line;
                     while ((line = br.readLine()) != null) {
                         response.append(line.trim());
                     }
-                    System.out.println("Detalhes do erro: " + response);
+                    System.out.println("Mensagem enviada com sucesso. Resposta: " + response);
+                }
+            } else {
+                // Erro ao enviar mensagem
+                System.out.println("Erro ao enviar mensagem. Código de resposta: " + responseCode);
+                try (BufferedReader br = new BufferedReader(
+                        new InputStreamReader(connection.getErrorStream(), StandardCharsets.UTF_8))) {
+                    StringBuilder errorResponse = new StringBuilder();
+                    String line;
+                    while ((line = br.readLine()) != null) {
+                        errorResponse.append(line.trim());
+                    }
+                    System.out.println("Detalhes do erro: " + errorResponse);
                 }
             }
         } catch (Exception e) {
+            // Trata exceções gerais
             System.err.println("Erro ao enviar notificação para o Slack: " + e.getMessage());
             e.printStackTrace();
+        } finally {
+            // Certifique-se de desconectar a conexão
+            if (connection != null) {
+                connection.disconnect();
+            }
         }
     }
 }
