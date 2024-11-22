@@ -14,8 +14,7 @@ import java.time.LocalDate;
 public class Main {
     public static void main(String[] args) throws IOException {
         System.out.println("Diretório de trabalho atual: " + System.getProperty("user.dir"));
-        String slackToken = System.getenv("SLACK_TOKEN");
-        String channelId = "#vertex";
+        String webhookUrl = System.getenv("SLACK_WEBHOOK_URL_CLIENT");
 
         BucketServices bucketServices = new BucketServices();
         Conexao con = new Conexao();
@@ -26,15 +25,14 @@ public class Main {
         criar.criarTabelas();
         inserir.inserirDados();
 
-        System.out.println("Token do Slack: " + slackToken);
-        SlackMessages notifier = new SlackMessages(slackToken, channelId);
+        SlackMessages notifier = new SlackMessages(webhookUrl);
 
         String consumoElevadoMessage = notifier.generateConsumoElevadoMessage();
         String resumoSemanalMessage = notifier.generateResumoMensalMessage();
         String topLocaisGastoMessage = notifier.generateTopLocaisGastoMessage();
         String alertasDeConsumoAcimaDaMetaMessage = notifier.generateAlertasDeConsumoAcimaDaMetaMessage();
 
-        SlackClients messageSender = new SlackClients("Enviando mensagem:", slackToken, channelId);
+        SlackClients messageSender = new SlackClients(webhookUrl);
 
         messageSender.sendNotification(consumoElevadoMessage);
         messageSender.sendNotification(topLocaisGastoMessage);
