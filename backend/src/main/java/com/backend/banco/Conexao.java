@@ -18,9 +18,9 @@ public class Conexao {
         String dbPassword = System.getenv("DB_PASSWORD");
 
         basicDataSource.setDriverClassName("com.mysql.cj.jdbc.Driver");
-        basicDataSource.setUrl(dbUrl != null ? dbUrl : "jdbc:mysql://172.18.0.1:3306/Vertex");
-        basicDataSource.setUsername(dbUser != null ? dbUser : "root");
-        basicDataSource.setPassword(dbPassword != null ? dbPassword : "urubu100");
+        basicDataSource.setUrl(dbUrl);
+        basicDataSource.setUsername(dbUser);
+        basicDataSource.setPassword(dbPassword);
 
         this.dataSource = basicDataSource;
     }
