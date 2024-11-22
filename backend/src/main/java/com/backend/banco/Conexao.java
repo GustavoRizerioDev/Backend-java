@@ -7,18 +7,22 @@ import javax.sql.DataSource;
 
 public class Conexao {
 
+    // Ambiente em Produção
     private final DataSource dataSource;
 
-    public Conexao(){
-
+    public Conexao() {
         BasicDataSource basicDataSource = new BasicDataSource();
+
+        String dbUrl = System.getenv("DB_URL");
+        String dbUser = System.getenv("DB_USER");
+        String dbPassword = System.getenv("DB_PASSWORD");
+
         basicDataSource.setDriverClassName("com.mysql.cj.jdbc.Driver");
-        basicDataSource.setUrl("jdbc:mysql://localhost:3307/Vertex");
-        basicDataSource.setUsername("root");
-        basicDataSource.setPassword("urubu100");
+        basicDataSource.setUrl(dbUrl != null ? dbUrl : "jdbc:mysql://172.18.0.1:3306/Vertex");
+        basicDataSource.setUsername(dbUser != null ? dbUser : "root");
+        basicDataSource.setPassword(dbPassword != null ? dbPassword : "urubu100");
 
         this.dataSource = basicDataSource;
-
     }
 
     public JdbcTemplate getConnection() {
