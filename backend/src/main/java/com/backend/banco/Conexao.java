@@ -8,6 +8,7 @@ import javax.sql.DataSource;
 public class Conexao {
 
     private final DataSource dataSource;
+
     public Conexao(){
 
         BasicDataSource basicDataSource = new BasicDataSource();
