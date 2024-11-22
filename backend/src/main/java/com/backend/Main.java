@@ -26,6 +26,7 @@ public class Main {
         criar.criarTabelas();
         inserir.inserirDados();
 
+        System.out.println("Token do Slack: " + slackToken);
         SlackMessages notifier = new SlackMessages(slackToken, channelId);
 
         String consumoElevadoMessage = notifier.generateConsumoElevadoMessage();
