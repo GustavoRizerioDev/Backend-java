@@ -14,6 +14,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.UUID;
 
@@ -56,13 +57,15 @@ public class BucketServices {
     }
 
     public void enviarArquivo(String message) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
+        String dataHora = LocalDateTime.now().format(formatter);
         try {
             // Criando o arquivo localmente
             File file = new File("arquivoS3.txt");
             String conteudo = message;
             Files.writeString(file.toPath(), conteudo);
 
-            String uniqueFileName = "logs-" + UUID.randomUUID() + ".txt";
+            String uniqueFileName = "logs-" + dataHora + ".txt";
 
             PutObjectRequest putObjectRequest = PutObjectRequest.builder()
                     .bucket(bucketName)
