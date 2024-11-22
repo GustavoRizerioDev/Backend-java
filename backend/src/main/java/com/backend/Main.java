@@ -33,7 +33,7 @@ public class Main {
         String topLocaisGastoMessage = notifier.generateTopLocaisGastoMessage();
         String alertasDeConsumoAcimaDaMetaMessage = notifier.generateAlertasDeConsumoAcimaDaMetaMessage();
 
-        SlackClients messageSender = new SlackClients(slackToken, channelId);
+        SlackClients messageSender = new SlackClients("Enviando mensagem:", slackToken, channelId);
 
         messageSender.sendNotification(consumoElevadoMessage);
         messageSender.sendNotification(topLocaisGastoMessage);
