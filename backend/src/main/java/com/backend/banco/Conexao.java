@@ -17,6 +17,10 @@ public class Conexao {
         String dbUser = System.getenv("DB_USER");
         String dbPassword = System.getenv("DB_PASSWORD");
 
+        if (dbUrl == null || dbUser == null || dbPassword == null) {
+            throw new IllegalArgumentException("As variáveis de ambiente DB_URL, DB_USER ou DB_PASSWORD não estão configuradas.");
+        }
+
         basicDataSource.setDriverClassName("com.mysql.cj.jdbc.Driver");
         basicDataSource.setUrl(dbUrl);
         basicDataSource.setUsername(dbUser);
@@ -24,6 +28,7 @@ public class Conexao {
 
         this.dataSource = basicDataSource;
     }
+
 
     public JdbcTemplate getConnection() {
         return new JdbcTemplate(dataSource);
