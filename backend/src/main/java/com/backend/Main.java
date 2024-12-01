@@ -21,7 +21,7 @@ public class Main {
         CriacaoDeTabelas criar = new CriacaoDeTabelas();
         InserirNoBanco inserir = new InserirNoBanco();
 
-        bucketServices.listarBucket();
+        //bucketServices.listarBucket();
         criar.criarTabelas();
         inserir.inserirDados();
 

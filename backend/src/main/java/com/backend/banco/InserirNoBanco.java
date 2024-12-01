@@ -64,8 +64,16 @@ public class InserirNoBanco {
                 logBuilder.append(warnMessage);
             }
         }
+        try {
+            slackLogs.sendNotification(logBuilder.toString());
+        }catch (Exception e){
+            logger.log(Level.SEVERE, "Erro ao enviar mensagem para o Slack", e);
+        }
 
-        slackLogs.sendNotification(logBuilder.toString());
-        s3Service.enviarArquivo(logBuilder.toString());
+        try{
+            s3Service.enviarArquivo(logBuilder.toString());
+        } catch (Exception e){
+            logger.log(Level.SEVERE, "Erro ao enviar arquivo para o S3", e);
+        }
     }
 }
